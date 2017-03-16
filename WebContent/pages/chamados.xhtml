@@ -1,0 +1,315 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/template/baseTemplate.xhtml">
+    <ui:define name="content">
+        <f:view>
+          <f:loadBundle basename="com.unelev.projetosia.resources.messages" var="msg"/>
+          <h:head>
+                <script type="text/javascript">
+                
+                   function initDialog() {
+                    $("#formPesquisa:idOfDialogPlaceHolder").dialog({
+                       width: 450, 
+                       height: 238,
+                       resizable: false,
+                       title: 'Pesquisa de chamados',
+                	   modal: true,
+                	   buttons: {
+                       Pesquisar: function () {
+                    	   if(validaPesquisa()){
+                    	   $("#justAButton").focus();
+                    	   $("#justAButton").click();
+                          }
+                    	},
+                	   Cancelar: function () {
+                		   $(this).dialog("close");
+                	   }
+                	   },
+                	 });
+
+                     $(".inputDataInicio").datepicker({ 
+                        showOn: "button", 
+                        buttonImage: "images/calendar.gif", 
+                        buttonImageOnly: true 
+                      });
+
+                    
+
+                     $(".inputDataFim").datepicker({ 
+                        showOn: "button", 
+                        buttonImage: "images/calendar.gif", 
+                        buttonImageOnly: true 
+                      });
+
+                   
+                   } 
+
+                   function mascara(){
+                    $(document).ready(function(){
+                   	 $(".cnpj").mask("99.999.999/9999-99");
+                   	 $(".telefone").mask("(99) 9999-99-99");
+                   	 $(".celular").mask("(99) 9999-99-99");
+                   	});
+                   }
+
+                   $(document).ready(function(){
+                	   mascara();
+                   });
+
+                   function hidePopUp(){
+                	  $("#formPesquisa:idOfDialogPlaceHolder").close();
+                   }
+
+                   function validaPesquisa(){
+
+                 	   var cnpj = $('#cnpjc').val();
+                       var ss = $('#impNumSs').val();
+                       var dtIni = $('#impDataInicio').val();
+                       var dtFim = $('#impDataFim').val();
+                      
+                       if(ss == '' &amp;&amp; dtIni == '' &amp;&amp; dtFim == ''){
+                  	      $('#mensg').css("display", "block");
+                  		  return false;
+                        }else{
+                          return true;
+                        }
+                        
+                   }
+                   
+                   function limpaPesquisa(){
+                	   $('#mensg').css("display", "none");
+                	   $('#mensgf').css("display", "none");
+                	   $('#impNumSs').val('');
+                       $('#impDataInicio').val('');
+                       $('#impDataFim').val('');
+                   }
+
+                   function timeoutLimpaList() {
+                	    setTimeout('limpaListaNomes()', 1000);
+                	}
+               	
+                   function limpaListaNomes(){
+                      document.getElementById('frmChamados:botaoLimpar').click();
+                   }
+
+                   
+                 </script>
+                 <style>
+                      .head1 { text-align : center; width: 100px;} 
+                      .head2 { text-align : center; width: 300px;}
+                      .head3 { text-align : center; width: 100px;}
+                      .head4 { text-align : center; width: 100px;}
+                      .head5 { text-align : center; width: 100px;}
+                      .col1 { text-align : center;} 
+                      .col2 { text-align : left;}
+                      .col3 { text-align : center;}
+                      .col4 { text-align : center;}
+                      .col5 { text-align : center;}
+                      .texto{color: #000066;}
+                 </style>
+          </h:head>
+          <h:form id="frmChamados">
+               <p:messages id="msgs"/>
+               <div style="margin-top:20px; margin-left:5%; width:75%;">
+                   <fieldset>
+                       <legend>Pesquisa Cliente</legend>
+                       <h:panelGrid id="dadosPesq" columns="3"  cellspacing="5px" cellpadding="6px">
+                       <h:outputText value="#{msg['chamado.buscar']}" style="margin-left:18px;" styleClass="rotulos"></h:outputText>
+                       <h:panelGroup id="inputField" layout="block" class="suggestbox">
+	                          <h:panelGroup layout="block">
+		                            <h:inputText  autocomplete="off" id="input" styleClass="inputSearch" value="#{chamadoBean.input}" onblur="timeoutLimpaList();" maxlength="60"  size="65"  style="font-family: arial; font-size: 14px; border: 1px inset; background-color: #D3D3D3; color: #000000;" required="false" converter="toUpperCaseConverter">
+			                           <f:ajax event="keyup" render="suggest_box" listener="#{chamadoBean.search('')}" />
+			                        </h:inputText>
+			                        <h:commandButton id="botaoLimpar" action="#{chamadoBean.pesquisarCliente}" style="display:none">
+					                   <f:ajax execute="@form" event="click" listener="#{chamadoBean.pesquisarCliente}" render=" :frmChamados:inputField" onevent="mascara();"/> 
+					                </h:commandButton>
+	                          </h:panelGroup>
+	                          <h:panelGroup id="suggest_box" layout="block">
+		                          <h:panelGroup id="suggest_resultlist" layout="block" rendered="#{! empty chamadoBean.result}"  >
+			                         <div style="background-color: #D3D3D3; position: absolute; width:425px;z-index:1;">
+			                            <ul>
+			                              <ui:repeat var="entry" value="#{chamadoBean.result}">
+					                        <li>
+					                          <h:commandLink action="#{chamadoBean.pesquisarCliente}" value="#{entry}">
+					                             <f:ajax execute="@form" event="click" listener="#{chamadoBean.pesquisarCliente}" render=" :frmChamados:inputField"/> 
+					                             <f:param name="nomeCli" value="#{entry}"/>
+					                          </h:commandLink>
+					                         </li>
+				                          </ui:repeat>
+			                             </ul>
+			                         </div>
+			                       </h:panelGroup>
+	                          </h:panelGroup>
+                        </h:panelGroup> 
+                        <h:commandButton value="..."  style="margin-left:10px;" action="#{chamadoBean.pesquisarNomeCliente}" styleClass="button_sia">
+                             <f:ajax  execute="@form" event="click" listener="#{chamadoBean.pesquisarNomeCliente}" render="msgs dadosCliente gridBotoes panelChamados panelDesc :formPesquisa"></f:ajax>
+                        </h:commandButton>
+                       </h:panelGrid>
+                    </fieldset>
+               </div>
+               
+               <div style="margin-top:2%; margin-left:5%; width:75%;">
+                   <fieldset>
+                      <legend>Dados do Cliente</legend>
+                         <f:ajax event="blur" render="@this" onevent="mascara()">
+                            <h:panelGroup id="dadosCliente">
+                              <h:inputHidden value="#{chamadoBean.cnpjCliCad}" />
+                              <h:inputHidden id="nomeCliente" value="#{chamadoBean.cliente.nomeCliente}" converter="toUpperCaseConverter"/>
+                              <h:inputHidden id ="cnpjdclient" value="#{chamadoBean.cliente.cnpjCliente}" converter="cnpjConverter" />
+                              <h:inputHidden value="#{chamadoBean.cliente.enderecoCliente}" />
+                              <h:inputHidden value="#{chamadoBean.cliente.complCliente}" />
+                              <h:inputHidden value="#{chamadoBean.cliente.numEnd}"  />
+                              <h:inputHidden value="#{chamadoBean.cliente.complCliente}" />
+                              <h:inputHidden value="#{chamadoBean.cliente.respCliente}" />
+                              <h:inputHidden value="#{chamadoBean.cliente.numTelCliente}"  />
+                              <h:inputHidden value="#{chamadoBean.cliente.celCliente}" />
+                              <h:panelGrid columns="6" cellspacing="5px" cellpadding="6px" rendered="#{chamadoBean.cnpjCliCad eq true}" >                        
+                                  <h:outputText value="#{msg['chamado.nomeDoCliente']}" styleClass="rotulos"></h:outputText>
+                                  <h:inputText value="#{chamadoBean.cliente.nomeCliente}" maxlength="60"  size="65"  style="font-family: arial; font-size: 14px; border: 1px inset;  border-color: #000000; background:#dddddd; opacity:0.6;" required="false" readonly="true" converter="toUpperCaseConverter"></h:inputText>
+                                  <h:outputText value="#{msg['chamado.cgcCnpj']}" styleClass="rotulos"></h:outputText>
+                                  <h:inputText   value="#{chamadoBean.cliente.cnpjCliente}" maxlength="60"  size="18" style="font-family: arial; font-size: 14px; border: 1px inset;  border-color: #000000; background:#dddddd; opacity:0.6;" styleClass="cnpj" required="false" readonly="true" converter="cnpjConverter"></h:inputText>
+                               </h:panelGrid>
+                               <h:panelGrid columns="4" cellspacing="5px" cellpadding="6px" rendered="#{chamadoBean.cnpjCliCad eq false}">                        
+                                  <h:outputText value="#{msg['chamado.nomeDoCliente']}" styleClass="rotulos"></h:outputText>
+                                  <h:inputText id="inptNomeCli" value="#{chamadoBean.cliente.nomeCliente}" maxlength="60"  size="65"  styleClass="edit" required="false" requiredMessage="#{msg['chamado.nomeDoCliente.erro']}"   converter="toUpperCaseConverter"></h:inputText>
+                                  <h:outputText value="#{msg['chamado.cgcCnpj']}" styleClass="rotulos"></h:outputText>
+                                  <h:inputText  id ="cnpj" value="#{chamadoBean.cliente.cnpjCliente}" maxlength="60"  size="18" style="font-family: arial; font-size: 14px; border: 1px inset;  border-color: #000000; background:#dddddd;" styleClass="cnpj" required="false" onclick="mascara()"  converter="cnpjConverter"></h:inputText>
+                               </h:panelGrid>
+                               <h:panelGrid columns="6" cellspacing="5px" cellpadding="6px" rendered="#{chamadoBean.cnpjCliCad eq true}">
+                                  <h:outputText value="#{msg['chamado.endereco']}" style="margin-left:38px;" styleClass="rotulos"></h:outputText>
+                                  <h:inputText value="#{chamadoBean.cliente.enderecoCliente}" maxlength="40"  size="65"  style="font-family: arial; font-size: 14px; border: 1px inset;  border-color: #000000; background:#dddddd; opacity:0.6;" required="false" readonly="true"  converter="toUpperCaseConverter"></h:inputText>
+                                  <h:outputText value="#{msg['chamado.num']}" style="margin-left:53px;" styleClass="rotulos"></h:outputText>
+                                  <h:inputText  value="#{chamadoBean.cliente.numEnd}" maxlength="5"  size="6" style="font-family: arial; font-size: 14px; border: 1px inset;  border-color: #000000; background:#dddddd; opacity:0.6;" required="false" readonly="true" converter="numberConverter"></h:inputText>
+                               </h:panelGrid>
+                               <h:panelGrid columns="4" cellspacing="5px" cellpadding="6px" rendered="#{chamadoBean.cnpjCliCad eq false}">
+                                  <h:outputText value="#{msg['chamado.endereco']}" style="margin-left:38px;" styleClass="rotulos"></h:outputText>
+                                  <h:inputText value="#{chamadoBean.cliente.enderecoCliente}" maxlength="40"  size="65"  styleClass="edit" required="false" converter="toUpperCaseConverter"></h:inputText>
+                                  <h:outputText value="#{msg['chamado.num']}" style="margin-left:53px;" styleClass="rotulos"></h:outputText>
+                                  <h:inputText  value="#{chamadoBean.cliente.numEnd}" maxlength="5"  size="6" onkeyup="this.value=this.value.replace(/[^\d]/,'');" styleClass="edit" required="false"  converter="numberConverter"></h:inputText>
+                               </h:panelGrid>
+                               <h:panelGrid columns="3" cellspacing="5px" cellpadding="6px" rendered="#{chamadoBean.cnpjCliCad eq true}">
+                                  <h:outputText value="#{msg['chamado.compl']}" style="margin-left:16px;" styleClass="rotulos"></h:outputText>
+                                  <h:inputText value="#{chamadoBean.cliente.complCliente}" maxlength="15"  size="17"  style="font-family: arial; font-size: 14px; border: 1px inset;  border-color: #000000; background:#dddddd; opacity:0.6;" required="false" readonly="true" converter="toUpperCaseConverter"></h:inputText>
+                               </h:panelGrid>
+                               <h:panelGrid columns="2" cellspacing="5px" cellpadding="6px" rendered="#{chamadoBean.cnpjCliCad eq false}">
+                                  <h:outputText value="#{msg['chamado.compl']}" style="margin-left:16px;" styleClass="rotulos"></h:outputText>
+                                  <h:inputText  value="#{chamadoBean.cliente.complCliente}" maxlength="15"  size="17" styleClass="edit" required="false"  converter="toUpperCaseConverter"></h:inputText>
+                               </h:panelGrid>
+                               <h:panelGrid columns="3" cellspacing="5px" cellpadding="6px" rendered="#{chamadoBean.cnpjCliCad eq true}">
+                                  <h:outputText value="#{msg['chamado.nomeResp']}" style="margin-left:9px;" styleClass="rotulos"></h:outputText>
+                                  <h:inputText  value="#{chamadoBean.cliente.respCliente}" maxlength="50"  size="65"  style="font-family: arial; font-size: 14px; border: 1px inset;  border-color: #000000; background:#dddddd; opacity:0.6;" required="false" readonly="true"  converter="toUpperCaseConverter"></h:inputText>
+                               </h:panelGrid>
+                                <h:panelGrid columns="2" cellspacing="5px" cellpadding="6px" rendered="#{chamadoBean.cnpjCliCad eq false}">
+                                  <h:outputText value="#{msg['chamado.nomeResp']}" style="margin-left:9px;" styleClass="rotulos"></h:outputText>
+                                  <h:inputText  value="#{chamadoBean.cliente.respCliente}" maxlength="50"  size="65"  styleClass="edit" required="false" converter="toUpperCaseConverter"></h:inputText>
+                               </h:panelGrid>
+                               <h:panelGrid columns="6" cellspacing="5px" cellpadding="6px" rendered="#{chamadoBean.cnpjCliCad eq true}">
+                                  <h:outputText value="#{msg['chamado.telefone']}" style="margin-left:44px;" styleClass="rotulos"></h:outputText>
+                                  <h:inputText  value="#{chamadoBean.cliente.numTelCliente}" maxlength="60"  size="14" style="font-family: arial; font-size: 14px; border: 1px inset;  border-color: #000000; background:#dddddd; opacity:0.6;" required="false" readonly="true" converter="telephoneConverter"></h:inputText>
+                                  <h:outputText value="#{msg['chamado.celular']}" style="margin-left:40px;" styleClass="rotulos"></h:outputText>
+                                  <h:inputText  value="#{chamadoBean.cliente.celCliente}" maxlength="60"  size="14"  style="font-family: arial; font-size: 14px; border: 1px inset;  border-color: #000000; background:#dddddd; opacity:0.6;" required="false" readonly="true" converter="telephoneConverter"></h:inputText>
+                               </h:panelGrid>
+                               <h:panelGrid columns="4" cellspacing="5px" cellpadding="6px" rendered="#{chamadoBean.cnpjCliCad eq false}">
+                                  <h:outputText value="#{msg['chamado.telefone']}" style="margin-left:44px;" styleClass="rotulos"></h:outputText>
+                                  <h:inputText  value="#{chamadoBean.cliente.numTelCliente}" maxlength="60"  size="14"  style="font-family: arial; font-size: 14px; border: 1px inset; background-color: #D3D3D3; color: #000000;" styleClass="telefone" required="false" onclick="mascara()"  converter="telephoneConverter"></h:inputText>
+                                  <h:outputText value="#{msg['chamado.celular']}" style="margin-left:40px;" styleClass="rotulos"></h:outputText>
+                                  <h:inputText  value="#{chamadoBean.cliente.celCliente}" maxlength="60"  size="14"  style="font-family: arial; font-size: 14px; border: 1px inset; background-color: #D3D3D3; color: #000000;" styleClass="celular" required="false" onclick="mascara()" converter="telephoneConverter"></h:inputText>
+                               </h:panelGrid>
+                         </h:panelGroup>
+                     </f:ajax>
+                   </fieldset>
+               </div>
+               <div style="margin-top:2%; margin-left:5%; width:75%;">
+                  <fieldset>
+                      <legend>Problema apresentado</legend>
+                      <h:panelGroup id="panelDesc">
+                         <h:panelGrid columns="3" cellspacing="5px" cellpadding="6px">
+                            <h:outputText value="#{msg['chamado.descProblem']}" styleClass="rotulos"></h:outputText>
+                            <h:inputHidden value="#{chamadoBean.atendimento.descricaoProblema}" />
+                            <h:inputTextarea value="#{chamadoBean.atendimento.descricaoProblema}" cols="68" rows="4"  styleClass="edit" required="false" converter="toUpperCaseConverter" rendered="#{chamadoBean.detalheAtendimento eq false}"/>
+                            <h:inputTextarea value="#{chamadoBean.atendimento.descricaoProblema}" cols="68" rows="4" readonly="true" style="background:#dddddd; opacity:0.6;" styleClass="edit" required="false" rendered="#{chamadoBean.detalheAtendimento eq true}"/>
+                         </h:panelGrid>
+                       </h:panelGroup>
+                   </fieldset>
+               </div>
+               <div style="margin-top:2%; margin-left:4%; width:70%;">
+                   <h:panelGrid id="gridBotoes" columns="3" cellspacing="15px" cellpadding="2px">
+                        <h:commandButton value="#{msg['chamado.btnEncaminhar']}" action="#{chamadoBean.encaminhar}"  styleClass="button_sia" rendered="#{chamadoBean.detalheAtendimento eq false}">
+                           <f:ajax  execute="@form" event="click" listener="#{chamadoBean.encaminhar}" render="dadosCliente panelChamados msgs panelDesc :formPesquisa"></f:ajax>
+                        </h:commandButton> 
+                        <h:commandButton id="btnPesq" value="#{msg['chamado.btnPesqChamados']}" onclick="limpaPesquisa();initDialog();return false;" styleClass="button_sia" rendered="#{chamadoBean.detalheAtendimento eq false}"></h:commandButton>
+                        <h:commandButton value="#{msg['chamado.btnLimparTela']}" action="#{chamadoBean.load}" styleClass="button_sia"></h:commandButton>  
+                   </h:panelGrid> 
+               </div>
+               <h:panelGroup id="panelChamados" layout="block" style="margin-top:2%; margin-left:5%; margin-bottom:5%; width:75%;" >
+                  <fieldset>
+                      <legend>Chamados Cliente</legend>
+                          <h:panelGroup layout="block" style="padding:10px 10px 10px 10px;">
+                            <h:outputLabel value="Nenhum chamado foi encontrado" rendered="#{empty chamadoBean.chamados}" />
+                            <h:dataTable id="tableChamados" value="#{chamadoBean.chamados}" rendered="#{not empty chamadoBean.chamados}" width="700px;" style="table-layout:fixed;" var="chamado" styleClass="order-table" columnClasses="col1,col2,col3,col4,col5" rowClasses="order-table-odd-row,order-table-even-row">
+                               <h:column headerClass="order-table-header head1">
+    				             <f:facet name = "header">Número do chamado</f:facet>
+    				             <h:outputText value="#{chamado.numeroSS}" />
+    				           </h:column>
+                               <h:column headerClass="order-table-header head2">
+    				              <f:facet name = "header">Descrição do problema</f:facet>
+    				              <h:outputText value="#{chamado.descricaoProblema}" style="word-wrap:break-word;" />
+    				           </h:column>
+    				           <h:column headerClass="order-table-header head3">
+    				              <f:facet name = "header">Data de abertura</f:facet>
+    				              <h:outputText value="#{chamado.dataAbertura}" style="word-wrap:break-word;" converter="dateConverter" />
+    				           </h:column>
+    				           <h:column headerClass="order-table-header head4">
+    				              <f:facet name = "header">Data de fechamento</f:facet>
+    				              <h:outputText value="#{chamado.dataFechamento}" style="word-wrap:break-word;" converter="dateConverter" />
+    				           </h:column>
+                               <h:column headerClass="order-table-header head5">
+    				              <f:facet name = "header">Status do chamado</f:facet>
+    				              <h:outputText value="#{msg['chamado.chEncerrado']}" rendered="#{chamado.statusPendencia eq 'E'}" style="color:#FF0000;" />
+    				              <h:outputText value="#{msg['chamado.chPendente']}" rendered="#{chamado.statusPendencia eq 'P'}" style="color:#FFCC00;" />
+    				              <h:outputText value="#{msg['chamado.chAberto']}" rendered="#{chamado.statusPendencia eq 'A'}" style="color:#00FF33;" />
+    				           </h:column>
+    				           <h:column headerClass="order-table-header head3">
+    				              <f:facet name = "header">Detalhar Chamado</f:facet>
+    				              <h:commandLink styleClass="texto" action="#{chamadoBean.detalharChamado}" value="detalhar">
+    				                 <f:ajax execute="@form" event="click" listener="#{chamadoBean.detalharChamado}" render=":frmChamados:dadosCliente :frmChamados:panelDesc :frmChamados:gridBotoes"/> 
+    				                 <f:param name="codCham" value="#{chamado.numeroSS}"/>
+                                  </h:commandLink>
+    				           </h:column>
+                            </h:dataTable>
+                          </h:panelGroup>
+                  </fieldset>
+               </h:panelGroup>
+           </h:form>
+           <h:form id="formPesquisa" prependId="false" style="display:none">
+              <h:panelGroup id="idOfDialogPlaceHolder">
+                <h:outputLabel id="mensg" value="Preencher pelo menos um parâmetro de pesquisa" styleClass="texto" style="display:none"/>
+                <fieldset>
+                   <legend>Parâmetros de pesquisa</legend>
+                   <h:panelGrid columns="2" cellspacing="5px" cellpadding="6px"> 
+                      <h:outputLabel id="labelNumSs" value="#{msg['chamado.numSS']}" styleClass="rotulos"/>
+                      <h:inputText id="impNumSs" value="#{chamadoBean.atendimento.numeroSS}" maxlength="12" onkeyup="this.value=this.value.replace(/[^\d]/,'');" size="17" styleClass="edit" converter="longConverter"></h:inputText>
+                      <h:outputLabel id="labelDataInicio" value="#{msg['chamado.dataInicio']}" styleClass="rotulos"/>
+                      <h:inputText id="impDataInicio" value="#{chamadoBean.atendimento.dataAbertura}" onkeyup="this.value='';" maxlength="60"  size="14"  style="font-family: arial; font-size: 14px; border: 1px inset; background-color: #D3D3D3; color: #000000;" styleClass="inputDataInicio" required="false"  converter="dateConverter"></h:inputText>
+                      <h:outputLabel id="labelDataFim" value="#{msg['chamado.dataFim']}" styleClass="rotulos"/>
+                      <h:inputText id="impDataFim" value="#{chamadoBean.atendimento.dataFechamento}" onkeyup="this.value='';" maxlength="60"  size="14"  style="font-family: arial; font-size: 14px; border: 1px inset; background-color: #D3D3D3; color: #000000;" styleClass="inputDataFim" required="false"   converter="dateConverter"></h:inputText>
+                    </h:panelGrid>
+                 </fieldset>
+                 <h:inputHidden id="cnpjc" value="#{chamadoBean.cliente.cnpjCliente}"/>
+                 <h:inputHidden id="nomeCli" value="#{chamadoBean.cliente.nomeCliente}"/>
+                 <h:commandButton id="justAButton"  action="#{chamadoBean.pesquisarChamados}" style="display:none">
+                    <f:ajax execute="@form" event="click" listener="#{chamadoBean.pesquisarChamados}" render=" :frmChamados:panelChamados :frmChamados:msgs :frmChamados:dadosCliente"  onevent="hidePopUp()"></f:ajax>
+                 </h:commandButton>
+               </h:panelGroup>
+            </h:form>
+        </f:view>
+    </ui:define>
+</ui:composition>
+</html>

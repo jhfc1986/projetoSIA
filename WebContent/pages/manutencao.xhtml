@@ -1,0 +1,232 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/template/baseTemplate.xhtml">
+    <ui:define name="content">
+        <f:view>
+          <f:loadBundle basename="com.unelev.projetosia.resources.messages" var="msg"/>
+          <h:head>
+              <script type="text/javascript">
+                  $(function(){
+            	    // abas
+            	    // oculta todas as abas
+            	    $("div.contaba").hide();
+            	    // mostra somente  a primeira aba
+            	    $("div.contaba:first").show();
+            	    // seta a primeira aba como selecionada (na lista de abas)
+            	    $("#abas a:first").addClass("selected");
+            	     
+            	    // quando clicar no link de uma aba
+            	    $("#abas a").click(function(){
+            	    // oculta todas as abas
+            	    $("div.contaba").hide();
+            	    // tira a seleção da aba atual
+            	    $("#abas a").removeClass("selected");
+            	     
+            	    // adiciona a classe selected na selecionada atualmente
+            	    $(this).addClass("selected");
+            	    // mostra a aba clicada
+            	    $($(this).attr("href")).show();
+            	    // pra nao ir para o link
+            	    return false;
+            	    });
+            	    });
+              
+              </script>
+              <style>
+      #abas{
+      margin-top:3%;
+      margin-left:6%;
+      padding: 0;
+      width: 800px;
+      background:#000;
+    }
+     
+    #abas li{
+      display: inline;
+    }
+    #abas li a{
+      display: block;
+      width: auto;
+      padding: 3px 8px;
+      margin: 0 1px 0 0;
+      width: 130px;
+      float: left;
+      background:#D1D1D1;
+      color: #797979;
+      text-decoration: none;
+      text-indent: 5px;
+     }
+    #abas li a.selected{
+      background-color: #FFD65E; background-image: -webkit-gradient(linear, left top, left bottom, from(#FFD65E), to(#FEBF04));
+      background-image: -webkit-linear-gradient(top, #FFD65E, #FEBF04);
+      background-image: -moz-linear-gradient(top, #FFD65E, #FEBF04);
+      background-image: -ms-linear-gradient(top, #FFD65E, #FEBF04);
+      background-image: -o-linear-gradient(top, #FFD65E, #FEBF04);
+      background-image: linear-gradient(to bottom, #FFD65E, #FEBF04);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#FFD65E, endColorstr=#FEBF04);
+      color:#63460C;
+      cursor: default;
+      font-family:arial, helvetica, sans-serif; 
+      text-decoration:none;
+    }
+     
+     
+    .contaba{
+      clear: both;
+    }
+    #tab1, #tab2, #tab3, #tab4, #tab5 {margin:25px 1px 25px 50px; padding:0; width: 718px; 
+      padding: 3px 8px; background:#F0F0F0; }
+    
+    label {display:block;}
+    
+     .head0 { text-align : center; width: 30px;} 
+     .head1 { text-align : center; width: 100px;}
+     .head2 { text-align : center; width: 110px;}
+     .head3 { text-align : center; width: 50px;}
+     .col0 { text-align : center;} 
+     .col1 { text-align : left;}
+     .col2 { text-align : center;}
+     .col3 { text-align : center;}
+
+  </style>
+          </h:head>
+          <h:form id="frmManutencao">
+             <h:panelGroup id="panelChamados" layout="block" style="margin-top:6%; margin-left:5%; margin-bottom:2%; width:75%;">
+               <fieldset>
+                     <legend>Itens Manutenção Preventiva</legend>
+                        <ul id="abas">
+                            <li><a href="#tab1">Casa de máquinas</a></li>
+                            <li><a href="#tab2">Cabine</a></li>
+                            <li><a href="#tab3">Pavimento</a></li>
+                            <li><a href="#tab4">Poço</a></li>
+                            <li><a href="#tab5">Contra - Peso</a></li>
+                        </ul>
+                        <div id="tab1" class="contaba">
+                           <h:panelGroup layout="block" style="padding:15px 25px 25px 5px;">
+                             <h:dataTable id="tableMaquina" value="#{manutencaoBean.vistorias}" width="700px;" style="table-layout:fixed;" var="vistoria"  styleClass="order-table" columnClasses="col0,col1,col2,col3" rowClasses="order-table-odd-row,order-table-even-row">
+                                <h:column headerClass="order-table-header head0">
+    				              <f:facet name = "header">Seq.Item</f:facet>
+    				              <h:outputText value="jhjhghjgjjjhgjhgjhgjg" style="word-wrap:break-word;" />
+                                </h:column>
+                               <h:column headerClass="order-table-header head1">
+    				              <f:facet name = "header">Descrição</f:facet>
+    				             <h:outputText value="jhjhghjgjjjhgjhgjhgjg" style="word-wrap:break-word;" />
+    				           </h:column>
+                               <h:column headerClass="order-table-header head2">
+    				              <f:facet name = "header">Comentários</f:facet>
+    				               <h:outputText value="jhjhghjgjjjhgjhgjhgjg" style="word-wrap:break-word;" />
+    				           </h:column>
+    				           <h:column headerClass="order-table-header head3">
+    				              <f:facet name = "header">Situação </f:facet>
+    				               <h:outputText value="jhjhghjgjjjhgjhgjhgjg" style="word-wrap:break-word;" />
+    				           </h:column>
+    				        </h:dataTable>
+                           </h:panelGroup>
+                        </div>
+                        <div id="tab2" class="contaba">
+                            <h:panelGroup layout="block" style="padding:15px 25px 25px 5px;">
+                              <h:dataTable id="tableCab" value="#{manutencaoBean.vistorias}" width="700px;" style="table-layout:fixed;" var="vistoria"  styleClass="order-table" columnClasses="col0,col1,col2,col3" rowClasses="order-table-odd-row,order-table-even-row">
+                                <h:column headerClass="order-table-header head0">
+    				              <f:facet name = "header">Seq.Item</f:facet>
+    				              <h:outputText value="jhjhghjgjjjhgjhgjhgjg" style="word-wrap:break-word;" />
+                                </h:column>
+                               <h:column headerClass="order-table-header head1">
+    				              <f:facet name = "header">Descrição</f:facet>
+    				             <h:outputText value="jhjhghjgjjjhgjhgjhgjg" style="word-wrap:break-word;" />
+    				           </h:column>
+                               <h:column headerClass="order-table-header head2">
+    				              <f:facet name = "header">Comentários</f:facet>
+    				               <h:outputText value="jhjhghjgjjjhgjhgjhgjg" style="word-wrap:break-word;" />
+    				           </h:column>
+    				           <h:column headerClass="order-table-header head3">
+    				              <f:facet name = "header">Situação </f:facet>
+    				               <h:outputText value="jhjhghjgjjjhgjhgjhgjg" style="word-wrap:break-word;" />
+    				           </h:column>
+    				        </h:dataTable>
+                           </h:panelGroup>
+                        </div>
+                         <div id="tab3" class="contaba">
+                            <h:panelGroup layout="block" style="padding:15px 25px 25px 5px;">
+                              <h:dataTable id="tablePav" value="#{manutencaoBean.vistorias}" width="700px;" style="table-layout:fixed;" var="vistoria"  styleClass="order-table" columnClasses="col0,col1,col2,col3" rowClasses="order-table-odd-row,order-table-even-row">
+                                <h:column headerClass="order-table-header head0">
+    				              <f:facet name = "header">Seq.Item</f:facet>
+    				              <h:outputText value="jhjhghjgjjjhgjhgjhgjg" style="word-wrap:break-word;" />
+                                </h:column>
+                               <h:column headerClass="order-table-header head1">
+    				              <f:facet name = "header">Descrição</f:facet>
+    				             <h:outputText value="jhjhghjgjjjhgjhgjhgjg" style="word-wrap:break-word;" />
+    				           </h:column>
+                               <h:column headerClass="order-table-header head2">
+    				              <f:facet name = "header">Comentários</f:facet>
+    				               <h:outputText value="jhjhghjgjjjhgjhgjhgjg" style="word-wrap:break-word;" />
+    				           </h:column>
+    				           <h:column headerClass="order-table-header head3">
+    				              <f:facet name = "header">Situação </f:facet>
+    				               <h:outputText value="jhjhghjgjjjhgjhgjhgjg" style="word-wrap:break-word;" />
+    				           </h:column>
+    				        </h:dataTable>
+                           </h:panelGroup>
+                        </div>
+                         <div id="tab4" class="contaba">
+                          <h:panelGroup layout="block" style="padding:15px 25px 25px 5px;">
+                              <h:dataTable id="tablePoc" value="#{manutencaoBean.vistorias}" width="700px;" style="table-layout:fixed;" var="vistoria"  styleClass="order-table" columnClasses="col0,col1,col2,col3" rowClasses="order-table-odd-row,order-table-even-row">
+                                <h:column headerClass="order-table-header head0">
+    				              <f:facet name = "header">Seq.Item</f:facet>
+    				              <h:outputText value="jhjhghjgjjjhgjhgjhgjg" style="word-wrap:break-word;" />
+                                </h:column>
+                               <h:column headerClass="order-table-header head1">
+    				              <f:facet name = "header">Descrição</f:facet>
+    				             <h:outputText value="jhjhghjgjjjhgjhgjhgjg" style="word-wrap:break-word;" />
+    				           </h:column>
+                               <h:column headerClass="order-table-header head2">
+    				              <f:facet name = "header">Comentários</f:facet>
+    				               <h:outputText value="jhjhghjgjjjhgjhgjhgjg" style="word-wrap:break-word;" />
+    				           </h:column>
+    				           <h:column headerClass="order-table-header head3">
+    				              <f:facet name = "header">Situação </f:facet>
+    				               <h:outputText value="jhjhghjgjjjhgjhgjhgjg" style="word-wrap:break-word;" />
+    				           </h:column>
+    				        </h:dataTable>
+                           </h:panelGroup>
+                        </div>
+                        <div id="tab5" class="contaba">
+                            <h:panelGroup layout="block" style="padding:15px 25px 25px 5px;">
+                              <h:dataTable id="tablePes" value="#{manutencaoBean.vistorias}" width="700px;" style="table-layout:fixed;" var="vistoria"  styleClass="order-table" columnClasses="col0,col1,col2,col3" rowClasses="order-table-odd-row,order-table-even-row">
+                                <h:column headerClass="order-table-header head0">
+    				              <f:facet name = "header">Seq.Item</f:facet>
+    				              <h:outputText value="jhjhghjgjjjhgjhgjhgjg" style="word-wrap:break-word;" />
+                                </h:column>
+                               <h:column headerClass="order-table-header head1">
+    				              <f:facet name = "header">Descrição</f:facet>
+    				             <h:outputText value="jhjhghjgjjjhgjhgjhgjg" style="word-wrap:break-word;" />
+    				           </h:column>
+                               <h:column headerClass="order-table-header head2">
+    				              <f:facet name = "header">Comentários</f:facet>
+    				               <h:outputText value="jhjhghjgjjjhgjhgjhgjg" style="word-wrap:break-word;" />
+    				           </h:column>
+    				           <h:column headerClass="order-table-header head3">
+    				              <f:facet name = "header">Situação </f:facet>
+    				               <h:outputText value="jhjhghjgjjjhgjhgjhgjg" style="word-wrap:break-word;" />
+    				           </h:column>
+    				        </h:dataTable>
+                           </h:panelGroup>
+                        </div>
+               </fieldset>
+             </h:panelGroup>
+             <div style="margin-top:1%; margin-left:4%; width:70%;">
+                   <h:panelGrid columns="2" cellspacing="15px" cellpadding="2px">
+                        <h:commandButton value="#{msg['manutencao.btnConcluir']}" action="#{manutencaoBean.adicionarNovaFicha}"  styleClass="button_sia"></h:commandButton>
+                        <h:commandButton value="#{msg['manutencao.btnInprimir']}" action="#{manutencaoBean.pesquisarPorPeriodo}"  styleClass="button_sia"></h:commandButton> 
+                   </h:panelGrid> 
+               </div>
+          </h:form>
+        </f:view>
+    </ui:define>
+</ui:composition>
+</html>

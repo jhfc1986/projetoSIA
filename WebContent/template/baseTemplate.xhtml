@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+  	<script type="text/javascript"  language="javascript" src="js/jquery-1.3.1.min.js"></script>	
+	<script type="text/javascript"  language="javascript" src="js/jquery.dropdownPlain.js"></script>
+	<script type="text/javascript"  language="javascript" src="js/jquery.maskedinput-1.3.min.js"></script>
+	<script type="text/javascript"  language="javascript" src="js/jquery-ui.js"></script>
+	<script type="text/javascript"  language="javascript" src="js/jquery.ui.widget.js"></script>
+	<script type="text/javascript"  language="javascript" src="js/jquery.ui.datepicker-pt-BR.js"></script>
+	
+	<title><ui:insert name="title">SISTEMA INTEGRADO DE ATENDIMENTO</ui:insert></title> 
+</h:head>
+
+<body>
+<ui:debug hotkey="x" rendered="#{initParam['javax.faces.FACELETS_DEVELOPMENT']}"/>
+
+<div id="header">
+    <ui:insert name="header" style="float:left; width:500px;">
+        <ui:include src="/template/siaHeader.xhtml"/>
+    </ui:insert>
+</div>
+
+<div id="content" style="background-image: url(images/imagemFundo.jpg); float:left; width:1135px; height: 435px; overflow-y:scroll;">
+  <ui:insert name="content"></ui:insert>
+</div>
+
+<div id="footer" style="float:left; width:1135px;">
+   <ui:insert name="footer">
+        <ui:include src="/template/siaFooter.xhtml"/>
+    </ui:insert>
+</div>
+
+</body>
+
+</html>

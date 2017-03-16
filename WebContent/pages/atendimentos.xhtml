@@ -1,0 +1,319 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/template/baseTemplate.xhtml">
+    <ui:define name="content">
+       <f:view>
+           <f:loadBundle basename="com.unelev.projetosia.resources.messages" var="msg"/>
+           <h:head>
+              <script type="text/javascript">
+
+              
+
+                function confirmaExclusao(){
+                	$('#dialog-confirm').css("display", "block");
+                	var retorno = false;
+                	$(function() {
+                	    $( "#dialog-confirm" ).dialog({
+                	      resizable: false,
+                	      height:140,
+                	      modal: true,
+                	      buttons: {
+                	        "Excluir": function() {
+                    	      retorno = true;
+                	        },
+                	        "Cancelar": function() {
+                	          retorno = false;
+                  	        }
+                	      }
+                	    });
+                	  });
+              	      return retorno;
+
+                }
+
+                function initDialog() {
+                	$('#mensg').css("display", "none");
+                    
+                    $("#formItem:idOfDialogPlaceHolder").dialog({
+                       width: 560, 
+                       height: 340,
+                       resizable: false,
+                       title: 'Item Substituição',
+                	   modal: true,
+                	   buttons: {
+                       Adicionar: function () {
+                    	   if(validaItem()){
+                    		  $('#meng').css("display", "none");
+                    	      $("#justAButton").focus();
+                    	      $("#justAButton").click();
+                            }
+                    	},
+                	   Cancelar: function () {
+                		   $('#meng').css("display", "none");
+                		   $(this).dialog("close");
+                	   }
+                	   },
+                  });
+                  return false;
+                }
+
+                $(document).ready(function(){
+                	mascara();
+               	    aplicaData();
+                });
+
+                function aplicaData(){
+                      
+               	      $(".inputData").datepicker({ 
+                          showOn: "button", 
+                          buttonImage: "images/calendar.gif", 
+                          buttonImageOnly: true 
+                      });
+                 }
+
+                 function mascara(){
+                    $(document).ready(function(){
+                     $(".horaChegada").mask("99:99");
+                   	 $(".horaSaida").mask("99:99");
+                   	});
+                 }
+
+                 function hidePopUp(){
+                	  $("#formItem:idOfDialogPlaceHolder").close();
+                 }
+
+                 function validaItem(){
+                	  var hidNome = $('#hidNome').val();
+                	  var qtdEq = $('#qtdEq').val();
+                	  var motEq = $('#motEq').val();
+                	  if(hidNome == '' &amp;&amp; qtdEq == '' &amp;&amp; motEq == ''){
+                		  $('#meng').css("display", "block");
+                 		 return false;
+                      }
+                	  return true;
+
+                 }
+
+                 function timeoutPopUp() {
+             	    setTimeout('initDialog()', 2000);
+             	    
+             	 }
+
+             	 function maskTime(){
+             		var chegada = $(".horaChegada").val();
+             		var saida = $(".horaSaida").val();
+                    if(chegada != ''){
+                    	var arraya  = chegada.split(':');
+                    	   if(arraya[0]>23){
+                    		  $(".horaChegada").val('00:00');
+                    		  chegada ="";
+                           }
+                           if(arraya[1]>59){
+                        	  $(".horaChegada").val('00:00');
+                        	  chegada ="";
+                           }
+                    } 
+                    if(saida != ''){
+                    	var arrayb  = saida.split(':');
+                    	if(arrayb[0]>23){
+                    	   $(".horaSaida").val('00:00');
+                    	   saida ="";
+                        }
+                    	if(arrayb[1]>59){
+                   		  $(".horaSaida").val('00:00');
+                   		  saida ="";
+                        }
+                    } 
+                   }
+                 
+            	
+                
+
+               </script>
+               <style>
+                
+                 .defaultSty{
+                   font-family: arial;
+                   font-size: 14px;
+                   border: 1px inset;
+                   background-color: #D3D3D3; 
+                   color: #000000;
+                 }
+                 
+                 .disabledSty{
+                   font-family: arial;
+                   font-size: 14px;
+                   background-color:#dddddd; 
+                   opacity:0.6;
+                 }
+                 
+                 .enabledSty{
+                    font-family: arial; 
+                    font-size: 14px; 
+                    background-color: #D3D3D3; 
+                    color: #000000;
+                 }
+                 
+                 .accountEditBtn{
+                     background-image: url('images/delete.gif');
+                 
+                 }
+                 
+                 .head0 { text-align : center; width: 200px;}
+                 .head1 { text-align : center; width: 63px;} 
+                 .head2 { text-align : center; width: 300px;}
+                 .head3 { text-align : center; width: 50px;}
+                 .col0  { text-align : center;}
+                 .col1  { text-align : center;} 
+                 .col2  { text-align : left;}
+                 .col3  { text-align : center;}
+                 .texto{color: red;}
+                </style>
+           </h:head>         
+            <h:form id="frmAtendimentos">
+               <p:messages id="msgs"/>
+               <div id="dialog-confirm" title="Excluir?" style="display:none;">
+                  <p><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>Deseja excluir o item da ficha de atendimento?</p>
+               </div>
+               <div style="margin-top:2%; margin-left:5%; width:75%;">
+                   <fieldset>
+                      <legend>Dados do Equipamento</legend>
+                           <h:panelGroup id="dadosEquipamento">
+                              <h:panelGrid columns="4" cellspacing="5px" cellpadding="8px">                        
+                                  <h:outputText value="#{msg['atendimentos.marcaElev']}" styleClass="rotulos" style="margin-left:38px;"></h:outputText>
+                                  <h:selectOneMenu value="#{fichaAtendimentoBean.equipamento.marcaEquipamento}" style="width:180px;font-family: arial; font-size: 13px;" styleClass="edit">  
+                                     <f:selectItem itemValue="" itemLabel="Selecione a marca"/>    
+                                     <f:selectItems value="#{fichaAtendimentoBean.marcaElevador}" />  
+                                     <f:ajax execute="@form" event="change" listener="#{fichaAtendimentoBean.carregaComboNomeModelo}" render="panelmodelo panelBtnIt listModelo" />  
+                                  </h:selectOneMenu> 
+                                  <h:outputText value="#{msg['atendimentos.modelo']}" styleClass="rotulos" style="margin-left:104px;"></h:outputText>
+                                  <h:panelGroup id="panelmodelo">
+                                     <h:selectOneMenu  value="#{fichaAtendimentoBean.equipamento.numModelo}" style="width:180px;" styleClass="disabledSty"  disabled="true" rendered="#{empty fichaAtendimentoBean.modeloElevador}">
+   			                           <f:selectItem itemValue="" itemLabel="Selecione o modelo"/>
+   			                         </h:selectOneMenu>
+   		                             <h:selectOneMenu id="listModelo" value="#{fichaAtendimentoBean.equipamento.numModelo}" style="width:180px;" styleClass="defaultSty"  rendered="#{not empty fichaAtendimentoBean.modeloElevador}"  converter="integerConverter">
+   			                           <f:selectItem itemValue="0" itemLabel="Selecione o modelo"/>
+   			                           <f:selectItems value="#{fichaAtendimentoBean.modeloElevador}" />
+   		                              </h:selectOneMenu>
+   		                           </h:panelGroup>
+                               </h:panelGrid>
+                               <h:panelGrid columns="4" cellspacing="5px" cellpadding="6px">                        
+                                 <h:outputText value="#{msg['atendimentos.numParadas']}" styleClass="rotulos" style="margin-left:29px;"></h:outputText>
+                                 <h:inputText  value="#{fichaAtendimentoBean.clienteEquipamento.numParadas}" maxlength="2"  size="3"   onkeyup="this.value=this.value.replace(/[^\d]/,'');"  styleClass="edit" required="false" converter="integerConverter"></h:inputText>
+                                 <h:outputText value="#{msg['atendimentos.qtdElevadores']}" styleClass="rotulos" style="margin-left:141px;"></h:outputText>
+                                 <h:inputText  value="#{fichaAtendimentoBean.clienteEquipamento.qtdEquip}" maxlength="2"  size="3"  onkeyup="this.value=this.value.replace(/[^\d]/,'');"  styleClass="edit" required="false" converter="integerConverter"></h:inputText>
+                               </h:panelGrid>
+                               <h:panelGrid columns="6" cellspacing="5px" cellpadding="6px">
+                                  <h:outputText value="#{msg['atendimentos.dtAtendimento']}" styleClass="rotulos" style="margin-left:41px;"></h:outputText>
+                                  <h:inputText  styleClass="inputData" value="#{fichaAtendimentoBean.atendimento.dataFechamento}"  maxlength="60"  size="14" style="font-family: arial; font-size: 14px; border: 1px inset; background-color: #D3D3D3; color: #000000;" onkeyup="this.value='';" required="false"  converter="dateConverter"></h:inputText>
+                                  <h:outputText value="#{msg['atendimentos.hrChegada']}" styleClass="rotulos" style="margin-left:108px;"></h:outputText>
+                                  <h:inputText  value="#{fichaAtendimentoBean.horaAtendimentoEntrada}" onblur="maskTime();" maxlength="5"  size="6" style="font-family: arial; font-size: 14px; border: 1px inset; background-color: #D3D3D3; color: #000000;" styleClass="horaChegada" required="false"></h:inputText>  
+                                  <h:outputText value="#{msg['atendimentos.hrSaida']}" styleClass="rotulos" style="margin-left:76px;"></h:outputText>
+                                  <h:inputText  value="#{fichaAtendimentoBean.horaAtendimentoSaida}" onblur="maskTime();" maxlength="5"  size="6" style="font-family: arial; font-size: 14px; border: 1px inset; background-color: #D3D3D3; color: #000000;" styleClass="horaSaida" required="false"></h:inputText>
+                                </h:panelGrid>
+                                <h:panelGrid columns="4" cellspacing="5px" cellpadding="6px">
+                                   <h:outputText value="#{msg['atendimentos.sitAnt']}" styleClass="rotulos" style="margin-left:40px;"></h:outputText>
+                                   <h:selectOneRadio value="#{fichaAtendimentoBean.atendimento.statusAtPre}" >
+   	                                 <f:selectItem itemValue="P" itemLabel="#{msg['atendimentos.parado']}" />
+   	                                 <f:selectItem itemValue="F" itemLabel="#{msg['atendimentos.func']}" />
+                                   </h:selectOneRadio>
+                                   <h:outputText value="#{msg['atendimentos.sitPost']}" styleClass="rotulos" style="margin-left:44px;"></h:outputText>
+                                   <h:selectOneRadio value="#{fichaAtendimentoBean.atendimento.statusAtPos}" >
+   	                                 <f:selectItem itemValue="P" itemLabel="#{msg['atendimentos.parado']}" />
+   	                                 <f:selectItem itemValue="F" itemLabel="#{msg['atendimentos.func']}" />
+                                   </h:selectOneRadio>
+                                </h:panelGrid>         
+                         </h:panelGroup>
+                   </fieldset>
+               </div>
+               <h:panelGroup id="panelBtnIt" layout="block" style="margin-top:1%; margin-left:4%; width:70%;">
+                   <h:panelGrid columns="1" cellspacing="15px" cellpadding="2px" rendered="#{not empty fichaAtendimentoBean.modeloElevador}">
+                      <h:commandButton value="#{msg['atendimentos.addItem']}" action="#{fichaAtendimentoBean.carregaSessao}" onclick="timeoutPopUp();" styleClass="button_sia">
+                        <f:ajax execute="@form" event="click" listener="#{fichaAtendimentoBean.carregaSessao}"></f:ajax>
+                      </h:commandButton> 
+                   </h:panelGrid> 
+               </h:panelGroup>
+               <h:panelGroup id="panelItens" layout="block" style="margin-top:1%; margin-left:5%; margin-bottom:1%; width:75%;">
+                  <fieldset>
+                     <legend>Itens Substituidos no Atendimento</legend>
+                         <h:panelGroup layout="block" style="padding:15px 25px 25px 25px;">
+                            <h:outputLabel value="Nenhum item foi cadastrado" rendered="#{empty fichaAtendimentoBean.itensManutencao}" />
+                            <h:dataTable id="tableItensEq" value="#{fichaAtendimentoBean.itensManutencao}"  rendered="#{not empty fichaAtendimentoBean.itensManutencao}" width="780px;" style="table-layout:fixed;" var="item" styleClass="order-table" columnClasses="col0,col1,col2,col3" rowClasses="order-table-odd-row,order-table-even-row">
+                               <h:column headerClass="order-table-header head0">
+    				             <f:facet name = "header">Nome item</f:facet>
+    				             <h:outputText value="#{item.nomeItem}" />
+                               </h:column>
+                               <h:column headerClass="order-table-header head1">
+    				             <f:facet name = "header">Qtd. Substituida</f:facet>
+    				             <h:outputText value="#{item.quantidade}" />
+    				           </h:column>
+                               <h:column headerClass="order-table-header head2">
+    				              <f:facet name = "header">Motivo Substituição</f:facet>
+    				               <h:outputText value="#{item.desSitEqip}" style="word-wrap:break-word;" />
+    				           </h:column>
+    				           <h:column headerClass="order-table-header head3">
+    				              <f:facet name = "header">Excluir Item</f:facet>
+    				              <h:commandLink styleClass="texto" action="#{fichaAtendimentoBean.excluirItemFicha}" value="excluir" rendered="#{fichaAtendimentoBean.atendimento.statusPendencia ne 'E'}">
+    				                 <f:ajax execute="@form" event="click" listener="#{fichaAtendimentoBean.excluirItemFicha}" render=":frmAtendimentos:panelItens :frmAtendimentos:tableItensEq"/> 
+    				                 <f:param name="nomeEq" value="#{item.nomeItem}"/>
+                                  </h:commandLink>
+    				           </h:column>
+    				        </h:dataTable>
+                         </h:panelGroup>
+                  </fieldset>
+              </h:panelGroup>
+               <div style="margin-top:2%; margin-left:4%; width:70%;">
+                   <h:panelGrid id="botoesAtend" columns="4" cellspacing="15px" cellpadding="2px">
+                      <h:commandButton value="#{msg['atendimentos.encerrar']}" action="#{fichaAtendimentoBean.encerrarAtendimento}" styleClass="button_sia" rendered="#{fichaAtendimentoBean.atendimento.statusPendencia ne 'E'}">
+                        <f:ajax execute="@form" event="click" listener="#{fichaAtendimentoBean.encerrarAtendimento}" render="botoesAtend  msgs"></f:ajax>
+                      </h:commandButton>  
+                      <h:commandButton value="#{msg['atendimentos.pendencia']}" action="#{fichaAtendimentoBean.colocarAtendimentoPendencia}" styleClass="button_sia" 
+                      rendered="#{fichaAtendimentoBean.atendimento.statusPendencia ne 'E' and fichaAtendimentoBean.atendimento.statusPendencia ne 'P'}">
+                        <f:ajax execute="@form" event="click" listener="#{fichaAtendimentoBean.colocarAtendimentoPendencia}" render="botoesAtend msgs"></f:ajax>
+                      </h:commandButton>
+                      <h:commandButton value="#{msg['atendimentos.imprimir']}"  styleClass="button_sia"></h:commandButton>
+                      <h:commandButton value="#{msg['atendimentos.voltar']}" action="#{atendimentoBean.load}" styleClass="button_sia"></h:commandButton>  
+                   </h:panelGrid> 
+               </div>
+          </h:form>
+          <h:form id="formItem" prependId="false" style="display:none">
+              <h:panelGroup id="idOfDialogPlaceHolder">
+                <h:panelGroup id="panelMs">
+                   <h:outputLabel id="mensg" value="Não foi encontrado componente com este nome" rendered="#{fichaAtendimentoBean.itemEquipamento.nomeItem eq null}" styleClass="texto" />
+                   <h:outputLabel id="meng" value="Todos os campos são de preenchimento obrigatório" styleClass="texto" style="display:none"/>
+                </h:panelGroup>
+                <fieldset>
+                   <legend>Dados dos itens</legend>
+                   <h:panelGrid columns="3" cellspacing="5px" cellpadding="6px"> 
+                      <h:outputText value="#{msg['atendimentos.pesqComp']}"/>
+                      <h:inputText id="nomepesq"  value="#{fichaAtendimentoBean.nomeItem}" maxlength="40"  size="40" styleClass="edit" required="false" converter="toUpperCaseConverter"></h:inputText>
+                      <h:commandButton id="butPes" action="#{fichaAtendimentoBean.pesquisarItens}" value="..." styleClass="button_sia">
+                         <f:ajax execute="@form" event="click" listener="#{fichaAtendimentoBean.pesquisarItens}" render=" :formItem:hidNome :formItem:nomeEq :formItem:qtdEq :formItem:motEq :formItem:nomepesq :formItem:panelMs :frmAtendimentos:msgs"></f:ajax>
+                      </h:commandButton> 
+                   </h:panelGrid>
+                   <h:panelGrid columns="2" cellspacing="5px" cellpadding="6px"> 
+                      <h:outputText value="#{msg['atendimentos.nomeComponente']}" style="margin-left:43px;"/>
+                      <h:inputText id="nomeEq" value="#{fichaAtendimentoBean.itemEquipamento.nomeItem}" maxlength="40"  size="40" readonly="true" styleClass="edit" required="false"></h:inputText>
+                      <h:outputText value="#{msg['atendimentos.qtdSubst']}" style="margin-left:25px;" />
+                      <h:inputText id="qtdEq" value="#{fichaAtendimentoBean.itemAtendimento.quantidadeSubstituida}" maxlength="2"  size="3"  onkeyup="this.value=this.value.replace(/[^\d]/,'');"  styleClass="edit" required="false" converter="integerConverter"></h:inputText>
+                      <h:outputText value="#{msg['atendimentos.motSubst']}" style="margin-left:3px;" />
+                      <h:inputTextarea id="motEq" value="#{fichaAtendimentoBean.itemAtendimento.motivoSubstituicao}" cols="30" rows="4"  styleClass="edit" required="false" converter="toUpperCaseConverter"/>
+                    </h:panelGrid>
+                 </fieldset>
+                 <h:inputHidden id="hidNome" value="#{fichaAtendimentoBean.itemEquipamento.nomeItem}" />
+                 <h:commandButton id="justAButton"  action="#{fichaAtendimentoBean.adicionarItemFichaAtendimento}" style="display:none">
+                    <f:ajax execute="@form" event="click" listener="#{fichaAtendimentoBean.adicionarItemFichaAtendimento}" render=":frmAtendimentos:dadosEquipamento :frmAtendimentos:panelItens" onevent="hidePopUp()"></f:ajax>
+                 </h:commandButton>
+               </h:panelGroup>
+            </h:form>
+       </f:view>
+    </ui:define>
+</ui:composition>
+</html>

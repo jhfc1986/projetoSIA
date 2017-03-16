@@ -1,0 +1,144 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/template/baseTemplate.xhtml">
+    <ui:define name="content">
+        <f:view>
+          <f:loadBundle basename="com.unelev.projetosia.resources.messages" var="msg"/>
+          <h:head>
+             <script type="text/javascript">
+               $(document).ready(function(){
+            	 aplicaData();
+               });
+
+               function aplicaData(){
+                 
+            	   $(".inputDataInicio").datepicker({ 
+                       showOn: "button", 
+                       buttonImage: "images/calendar.gif", 
+                       buttonImageOnly: true 
+                   });
+
+                   $(".inputDataFim").datepicker({ 
+                       showOn: "button", 
+                       buttonImage: "images/calendar.gif", 
+                       buttonImageOnly: true 
+                   });
+               }
+
+               function timeoutLimpaList() {
+           	    setTimeout('limpaListaNomes()', 500);
+           	   }
+          	
+              function limpaListaNomes(){
+                 document.getElementById('frmListManutencao:botaoLimpar').click();
+              }
+             
+             </script>
+             <style>
+                .head0 { text-align : center; width: 50px;}
+                .head1 { text-align : center; width: 100px;} 
+                .head2 { text-align : center; width: 300px;}
+                .col0 { text-align : center;}
+                .col1 { text-align : center;} 
+                .col2 { text-align : left;}
+                .texto{color: #000066;}
+             </style>
+          </h:head>
+           <h:form id="frmListManutencao">
+              <p:messages id="msgs"/>
+                <div style="margin-top:20px; margin-left:5%; width:75%;">
+                   <fieldset>
+                       <legend>Pesquisa Cliente</legend>
+                       <h:panelGrid id="dadosPesq" columns="3"  cellspacing="5px" cellpadding="6px">
+                       <h:outputText value="#{msg['chamado.buscar']}" style="margin-left:18px;" styleClass="rotulos"></h:outputText>
+                       <h:panelGroup id="inputField" layout="block" class="suggestbox">
+	                          <h:panelGroup layout="block">
+		                            <h:inputText  autocomplete="off" id="input" styleClass="inputSearch" value="#{manutencaoBean.input}" onblur="timeoutLimpaList();" maxlength="60"  size="65"  style="font-family: arial; font-size: 14px; border: 1px inset; background-color: #D3D3D3; color: #000000;" required="false" converter="toUpperCaseConverter">
+			                           <f:ajax event="keyup" render="suggest_box" listener="#{manutencaoBean.search('')}" />
+			                        </h:inputText>
+			                        <h:commandButton id="botaoLimpar" action="#{manutencaoBean.pesquisarCliente}" style="display:none">
+					                   <f:ajax execute="@form" event="click" listener="#{manutencaoBean.pesquisarCliente}" render=" :frmListManutencao:inputField" onevent="aplicaData();"/> 
+					                </h:commandButton>
+	                          </h:panelGroup>
+	                          <h:panelGroup id="suggest_box" layout="block">
+		                          <h:panelGroup id="suggest_resultlist" layout="block" rendered="#{! empty manutencaoBean.result}"  >
+			                         <div style="background-color: #D3D3D3; position: absolute; width:425px;z-index:1;">
+			                            <ul>
+			                              <ui:repeat var="entry" value="#{manutencaoBean.result}">
+					                        <li>
+					                          <h:commandLink action="#{manutencaoBean.pesquisarCliente}" value="#{entry}">
+					                             <f:ajax execute="@form" event="click" listener="#{manutencaoBean.pesquisarCliente}" render=" :frmListManutencao:inputField"/> 
+					                             <f:param name="nomeCli" value="#{entry}"/>
+					                          </h:commandLink>
+					                         </li>
+				                          </ui:repeat>
+			                             </ul>
+			                         </div>
+			                       </h:panelGroup>
+	                          </h:panelGroup>
+                        </h:panelGroup> 
+                        <h:commandButton value="..."  style="margin-left:10px;" action="#{manutencaoBean.pesquisarNomeCliente}" styleClass="button_sia">
+                             <f:ajax  execute="@form" event="click" listener="#{manutencaoBean.pesquisarNomeCliente}" render="msgs dadosCliente panelChamados"></f:ajax>
+                        </h:commandButton>
+                       </h:panelGrid>
+                    </fieldset>
+               </div>
+               <div style="margin-top:2%; margin-left:5%; width:75%;">
+                   <fieldset>
+                      <legend>Periodo pesquisa</legend>
+                         <h:panelGroup id="dadosCliente">
+                              <h:panelGrid columns="4" cellspacing="5px" cellpadding="6px">                        
+                                  <h:outputText value="#{msg['listManutencao.dtInicial']}" styleClass="rotulos" style="margin-left:20px;"></h:outputText>
+                                  <h:inputText id="impDataInicio" styleClass="inputDataInicio" onkeyup="this.value='';" value="#{manutencaoBean.vistoria.dtVistoria}" maxlength="60"  size="14"  style="font-family: arial; font-size: 14px; border: 1px inset; background-color: #D3D3D3; color: #000000;" required="false" converter="dateConverter"></h:inputText>
+                                  <h:outputText value="#{msg['listManutencao.dtFinal']}" styleClass="rotulos" style="margin-left:93px;"></h:outputText>
+                                  <h:inputText id="impDataFim" styleClass="inputDataFim" onkeyup="this.value='';" value="#{manutencaoBean.periodoFinal}" maxlength="60"  size="14" style="font-family: arial; font-size: 14px; border: 1px inset; background-color: #D3D3D3; color: #000000;" required="false"  converter="dateConverter"></h:inputText>
+                              </h:panelGrid>
+                         </h:panelGroup>
+                   </fieldset>
+               </div>
+               <div style="margin-top:1%; margin-left:4%; width:70%;">
+                   <h:panelGrid columns="2" cellspacing="15px" cellpadding="2px">
+                        <h:commandButton value="#{msg['listManutencao.adicionarFicha']}" action="#{manutencaoBean.adicionarNovaFicha}"  styleClass="button_sia"></h:commandButton>
+                        <h:commandButton value="#{msg['listManutencao.btnPesquisarVis']}" action="#{manutencaoBean.pesquisarPorPeriodo}"  styleClass="button_sia">
+                           <f:ajax  execute="@form" event="click" listener="#{manutencaoBean.pesquisarPorPeriodo}" onevent="aplicaData()" render="dadosCliente panelChamados msgs"></f:ajax>
+                        </h:commandButton> 
+                   </h:panelGrid> 
+               </div>
+               <h:panelGroup id="panelChamados" layout="block" style="margin-top:1%; margin-left:5%; margin-bottom:5%; width:75%;">
+                  <h:inputHidden value="#{manutencaoBean.cliente.nomeCliente}" />
+                  <h:inputHidden value="#{manutencaoBean.cliente.cnpjCliente}" />
+                  <fieldset>
+                     <legend>Vistorias Manutenção Preventiva</legend>
+                         <h:panelGroup layout="block" style="padding:15px 25px 25px 25px;">
+                            <h:outputLabel value="Nenhum chamado foi encontrado" rendered="#{empty manutencaoBean.vistorias}" />
+                            <h:dataTable id="tableChamados" value="#{manutencaoBean.vistorias}"  rendered="#{not empty manutencaoBean.vistorias}" width="700px;" style="table-layout:fixed;" var="vistoria" styleClass="order-table" columnClasses="col0,col1,col2" rowClasses="order-table-odd-row,order-table-even-row">
+                               <h:column headerClass="order-table-header head0">
+    				             <f:facet name = "header">Data da Vistoria</f:facet>
+    				             <h:outputText value="#{vistoria.ssVistoria}" />
+                               </h:column>
+                               <h:column headerClass="order-table-header head1">
+    				             <f:facet name = "header">Nome do cliente</f:facet>
+    				             <h:outputText value="#{vistoria.cliente.nomeCliente}" />
+    				           </h:column>
+                               <h:column headerClass="order-table-header head2">
+    				              <f:facet name = "header">Exibir Vistoria</f:facet>
+    				              <h:commandLink styleClass="texto" action="#{manutencaoBean.carregaFichaVistoria}" value="exibir">
+    				                 <f:param name="codCham" value="#{vistoria.ssVistoria}"/>
+                                  </h:commandLink>
+    				           </h:column>
+    				        </h:dataTable>
+                         </h:panelGroup>
+                  </fieldset>
+              </h:panelGroup>
+           </h:form>
+        </f:view>  
+    </ui:define>
+</ui:composition>
+</html>

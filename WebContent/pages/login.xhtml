@@ -1,0 +1,34 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <link rel="stylesheet" href="pages/css/button.css" type="text/css" media="screen, projection"/>
+    <link rel="stylesheet" href="pages/css/style.css" type="text/css" media="screen, projection"/>
+    <link rel="stylesheet" href="pages/css/estiloComponentes.css" type="text/css" media="screen, projection"/>
+</h:head>
+        <f:view>
+           <f:loadBundle basename="com.unelev.projetosia.resources.messages" var="msg"/>
+           <h:form>
+               <div style="background-image: url(images/imagemFundo.jpg);margin-top:15%; margin-left:35%; width:30%;">
+                 <fieldset>
+                     <legend>Login</legend>
+                      <h:panelGrid columns="3" cellpadding="2px">
+                        <h:outputText value="#{msg['chamado.buscar']}" styleClass="rotulos"></h:outputText>
+                        <h:inputText id="name" value="#{chamadoBean.name}"  maxlength="11" style="margin-bottom:5px;" styleClass="edit"  requiredMessage="#{msg['login.matricula.erro']}"></h:inputText>
+                        <h:message for="name"  style="color:red" />
+                        <h:outputText value="#{msg['login.senha']}" styleClass="rotulos"></h:outputText>
+                        <h:inputSecret  id="senha" value="#{chamadoBean.password}" size="20" style="margin-bottom:5px;" styleClass="edit"  requiredMessage="#{msg['login.senha.erro']}"></h:inputSecret>
+                        <h:message for="senha" style="color:red" />
+                      </h:panelGrid>
+                      <h:commandButton value="Login" action="#{chamadoBean.load}" style="margin-left:55px;" styleClass="button_sia"></h:commandButton>
+                    </fieldset>
+                </div>
+             </h:form>
+        </f:view>
+</html>

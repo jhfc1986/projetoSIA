@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <link rel="stylesheet" href="css/table.css" type="text/css" media="screen, projection"/>
+    <link rel="stylesheet" href="css/button.css" type="text/css" media="screen, projection"/>
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="screen, projection"/>
+    <link rel="stylesheet" href="css/estiloComponentes.css" type="text/css" media="screen, projection"/>
+    <link rel="stylesheet" href="css/jquery-ui.css" type="text/css" media="screen, projection"/>
+     <link rel="stylesheet" href="css/jquery.ui.theme.css" type="text/css" media="screen, projection"/>
+    
+</h:head>
+
+<body>
+    <h:form>
+      <div>
+         <h:graphicImage value="images/cabecalho.jpg"/>
+      </div>
+      <div style="background-color: #f6f6f6; width:1103%;">
+        <ul class="dropdown">
+        	<li><a href="#">Atendimento</a>
+        		<ul class="sub_menu">
+        			 <li><h:commandLink id="chamadoBtn" action="#{chamadoBean.load}" value="Chamados"/></li>
+        	         <li><h:commandLink action="#{atendimentoBean.load}" value="Reg. Atendimento"/></li>
+        			 <li><h:commandLink action="#{manutencaoBean.load}" value="Man. Preventiva"/></li>
+        			 <li><h:commandLink action="#{vistoriaBean.load}" value="Vistorias"/></li>
+        		</ul>
+        	</li>
+        	<li><h:commandLink  value="Vendas"/></li>
+        	<li><a href="#">Financeiro</a>
+        		<ul class="sub_menu">
+        			 <li><h:commandLink  value="Faturamento"/></li>
+        	    </ul>
+        	</li>
+        	<li><a href="#">Estatisticas</a>
+        	</li>
+        	<li><a href="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+        </ul>
+       </div>
+     </h:form>
+  </body>
+</html>

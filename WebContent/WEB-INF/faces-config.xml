@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<faces-config
+    xmlns="http://java.sun.com/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd"
+    version="2.0">
+    
+     
+     <navigation-rule>
+        <from-view-id>/pages/listAtendimentos.xhtml</from-view-id>
+        <navigation-case>
+            <from-action>#{fichaAtendimentoBean.detalharChamado}</from-action>
+            <from-outcome>success</from-outcome>
+            <to-view-id>/pages/atendimentos.xhtml</to-view-id>
+         </navigation-case>
+     </navigation-rule>    
+     
+     <navigation-rule>
+        <from-view-id>/pages/listManutencao.xhtml</from-view-id>
+        <navigation-case>
+            <from-action>#{manutencaoBean.adicionarNovaFicha}</from-action>
+            <from-outcome>success</from-outcome>
+            <to-view-id>/pages/manutencao.xhtml</to-view-id>
+         </navigation-case>
+     </navigation-rule>
+     
+     <navigation-rule>
+        <from-view-id>/pages/*</from-view-id>
+        <navigation-case>
+            <from-action>#{chamadoBean.load}</from-action>
+            <from-outcome>success</from-outcome>
+            <to-view-id>/pages/chamados.xhtml</to-view-id>
+         </navigation-case>
+         <navigation-case>
+            <from-action>#{atendimentoBean.load}</from-action>
+            <from-outcome>success</from-outcome>
+            <to-view-id>/pages/listAtendimentos.xhtml</to-view-id>
+         </navigation-case>
+         <navigation-case>
+            <from-action>#{manutencaoBean.load}</from-action>
+            <from-outcome>success</from-outcome>
+            <to-view-id>/pages/listManutencao.xhtml</to-view-id>
+         </navigation-case>
+         <navigation-case>
+            <from-action>#{vistoriaBean.load}</from-action>
+            <from-outcome>success</from-outcome>
+            <to-view-id>/pages/listVistorias.xhtml</to-view-id>
+         </navigation-case>
+     </navigation-rule>
+     
+     <navigation-rule>
+         <from-view-id>/*</from-view-id>
+         <navigation-case>
+              <from-outcome>loginPage</from-outcome>
+              <to-view-id>/pages/login.xhtml</to-view-id>
+         </navigation-case>
+         <navigation-case>
+            <from-action>#{chamadoBean.load}</from-action>
+            <from-outcome>success</from-outcome>
+            <to-view-id>/pages/chamados.xhtml</to-view-id>
+         </navigation-case>
+    </navigation-rule>
+         
+    <lifecycle>
+         <phase-listener>com.unelev.projetosia.listener.AutenticacaoListener</phase-listener>
+    </lifecycle>
+    
+    <application>
+	  <resource-bundle>
+		<base-name>com.unelev.projetosia.resources.messages</base-name>
+		<var>msg</var>
+	   </resource-bundle>
+     </application>
+     
+</faces-config>

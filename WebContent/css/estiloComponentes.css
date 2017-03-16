@@ -1,0 +1,98 @@
+
+.suggestbox {
+	position: relative;
+}
+
+.suggestbox .resultlist {
+	display: block;
+	position: absolute;
+	z-index: 1;
+	left: 2px;
+	top: 22px;
+	border: 1px solid #CCC;
+	background-color: #D3D3D3;
+}
+
+
+.edit {
+
+
+    font-family: arial;
+
+    /*Define a tamanho da fonte para todos os elementos */
+
+    font-size: 14px;
+
+    /*Define a borda do elemento, com um efeito de baixo-relevo menor que o padrão */
+
+    border: 1px inset;
+
+    /*Especifica a cor cinza, como pano de fundo do elemento */
+
+    background-color: #D3D3D3;
+
+    /*Especifica como preta a  cor da fonte do elemento */
+
+    color: #000000;
+
+}
+
+ 
+
+ 
+
+.botoes {
+	
+	font-family: arial;
+
+    /*Define a tamanho da fonte para todos os elementos */
+
+    font-size: 14px;
+
+    /*Especifica a cor chocolate, como pano de fundo do elemento */
+
+    background-color: #D2691E;
+
+    /*Especifica como preta a cor da fonte do elemento */
+
+    color: #FFFFFF;
+
+    /*Define a borda do elemento, com um efeito de alto-relevo menor que o padrão */
+
+    border: 1px outset;
+    
+    margin-left: 600px;
+    
+    margin-top: 40px;
+
+}
+
+ 
+
+.rotulos {
+
+    /*Especifica preta a cor da fonte do elemento */
+
+    font-family: arial;
+
+    /*Define a tamanho da fonte para todos os elementos */
+
+    font-size: 12px;
+    
+    color: #000000;
+
+}
+
+legend{
+	
+	font-weight: bold;
+	
+    font-family: arial;
+
+    /*Define a tamanho da fonte para todos os elementos */
+
+    font-size: 14px;
+
+
+}
+

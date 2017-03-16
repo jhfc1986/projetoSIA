@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PROCESS model-entity="JSFProcess">
+ <PROCESS-ITEM NAME="rules:#*" PATH="/*" SHAPE="32,129,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#*:0" NAME="item" PATH="/*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="loginPage::#pages#login.xhtml" NAME="output"
+    PATH="/pages/login.xhtml" TARGET="rules:#pages#login.xhtml"
+    TITLE="loginPage" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="success:#{chamadoBean.load}:#pages#chamados.xhtml"
+    NAME="output1" PATH="/pages/chamados.xhtml"
+    TARGET="rules:#pages#chamados.xhtml"
+    TITLE="#{chamadoBean.load}:success" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#pages#chamados.xhtml"
+  PATH="/pages/chamados.xhtml" SHAPE="464,241,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#pages#*" PATH="/pages/*" SHAPE="256,481,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#pages#*:0" NAME="item" PATH="/pages/*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="success:#{chamadoBean.load}:#pages#chamados.xhtml" NAME="output"
+    PATH="/pages/chamados.xhtml" TARGET="rules:#pages#chamados.xhtml"
+    TITLE="#{chamadoBean.load}:success" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="success:#{atendimentoBean.load}:#pages#listAtendimentos.xhtml"
+    NAME="output1" PATH="/pages/listAtendimentos.xhtml"
+    TARGET="rules:#pages#listAtendimentos.xhtml"
+    TITLE="#{atendimentoBean.load}:success" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="success:#{manutencaoBean.load}:#pages#listManutencao.xhtml"
+    NAME="output2" PATH="/pages/listManutencao.xhtml"
+    TARGET="rules:#pages#listManutencao.xhtml"
+    TITLE="#{manutencaoBean.load}:success" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="success:#{vistoriaBean.load}:#pages#listVistorias.xhtml"
+    NAME="output3" PATH="/pages/listVistorias.xhtml"
+    TARGET="rules:#pages#listVistorias.xhtml"
+    TITLE="#{vistoriaBean.load}:success" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#pages#listAtendimentos.xhtml"
+  PATH="/pages/listAtendimentos.xhtml" SHAPE="256,33,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#pages#listAtendimentos.xhtml:0" NAME="item"
+   PATH="/pages/listAtendimentos.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="success:#{fichaAtendimentoBean.detalharChamado}:#pages#atendimentos.xhtml"
+    NAME="output" PATH="/pages/atendimentos.xhtml"
+    TARGET="rules:#pages#atendimentos.xhtml"
+    TITLE="#{fichaAtendimentoBean.detalharChamado}:success" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#pages#atendimentos.xhtml"
+  PATH="/pages/atendimentos.xhtml" SHAPE="32,241,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#pages#listManutencao.xhtml"
+  PATH="/pages/listManutencao.xhtml" SHAPE="496,465,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#pages#listManutencao.xhtml:0" NAME="item"
+   PATH="/pages/listManutencao.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="success:#{manutencaoBean.adicionarNovaFicha}:#pages#manutencao.xhtml"
+    NAME="output" PATH="/pages/manutencao.xhtml"
+    TARGET="rules:#pages#manutencao.xhtml"
+    TITLE="#{manutencaoBean.adicionarNovaFicha}:success" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#pages#listVistorias.xhtml"
+  PATH="/pages/listVistorias.xhtml" SHAPE="496,673,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#pages#manutencao.xhtml"
+  PATH="/pages/manutencao.xhtml" SHAPE="704,481,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#pages#login.xhtml" PATH="/pages/login.xhtml"
+  SHAPE="256,145,0,0" model-entity="JSFProcessGroup"/>
+</PROCESS>
